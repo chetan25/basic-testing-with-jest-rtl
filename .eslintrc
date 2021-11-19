@@ -1,0 +1,45 @@
+{
+    "root": true,
+    "parser": "@babel/eslint-parser",
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    },
+    "extends": [
+        "eslint:recommended",
+        "prettier" // to remove styling rules that prettier can remove
+    ],
+    "rules": {
+        "strict": ["error", "never"],
+        "valid-typeof": "error"
+    },
+    "settings": {
+        "import/ignore": [".css$", "node_modules/*"]
+    },
+    "env": {
+        "browser": true // since we will run our code in browser
+    },
+    "overrides": [
+        {
+            "files": "**/*.+(ts|tsx)",
+            "parser": "@typescript-eslint/parser",
+            "plugins": ["@typescript-eslint"],
+            "parserOptions": {
+                "project": "./tsconfig.json",
+                "ecmaVersion": "latest",
+                "sourceType": "module",
+                "ecmaFeatures": {
+                    "jsx": true
+                }
+            },
+            "extends": [
+                "plugin:@typescript-eslint/eslint-recommended",
+                "plugin:@typescript-eslint/recommended",
+                "prettier" // to remove styling rules that prettier can remove
+            ]
+        }
+    ]
+}
