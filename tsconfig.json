@@ -25,6 +25,9 @@
         "paths": {
             "src/*": ["src/*"],
             "components/*": ["src/components/*"],
+            "store/*": ["src/store/*"],
+            "hooks/*": ["src/hooks/*"],
+            "lang/*": ["src/lang/*"],
             "utils/*": ["test/utils/*"]
         }
     },

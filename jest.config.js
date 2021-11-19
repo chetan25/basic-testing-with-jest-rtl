@@ -11,7 +11,7 @@ module.exports = {
         },
     },
     transform: {
-        "^.+\\.(|ts|tsx)$": "ts-jest",
+        "^.+\\.(js|ts|tsx)$": "ts-jest",
         // '^.+\\.(png|jpg)$': '<rootDir>/test-helpers/helpers/empty-module.js'
     },
     moduleDirectories: [
@@ -19,6 +19,9 @@ module.exports = {
         // eslint-disable-next-line no-undef
         path.join(__dirname, "src"),
         "components",
+        "hooks",
+        "lang",
+        "store",
         // eslint-disable-next-line no-undef
         path.join(__dirname, "test"),
     ],

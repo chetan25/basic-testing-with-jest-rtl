@@ -1,13 +1,29 @@
 import React from "react";
 import { render as rtlRender, RenderOptions } from "@testing-library/react";
-const Wrapper = ({ children }: { children: React.ReactElement }) => {
-    return <div>{children}</div>;
+import { GlobalProvider, initialState, GlobalState } from "store/global";
+import StyleProvider from "store/style-provider";
+
+type CustomRenderProps = {
+    defaultState?: GlobalState;
+    renderOptions?: RenderOptions;
 };
-const render = (ui: React.ReactElement, options: RenderOptions = {}) => {
+
+const renderWithProviders = (
+    ui: React.ReactElement,
+    { defaultState = initialState, renderOptions = {} }: CustomRenderProps = {}
+) => {
+    const Wrapper = ({ children }: { children: React.ReactElement }) => {
+        return (
+            <GlobalProvider defaultValue={defaultState}>
+                <StyleProvider>{children}</StyleProvider>
+            </GlobalProvider>
+        );
+    };
+
     return rtlRender(ui, {
         wrapper: Wrapper,
-        ...options,
+        ...renderOptions,
     });
 };
 export * from "@testing-library/react";
-export { render };
+export { renderWithProviders };

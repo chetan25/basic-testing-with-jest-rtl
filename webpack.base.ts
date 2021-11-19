@@ -4,7 +4,7 @@ export const baseConfig: webpack.Configuration = {
     module: {
         rules: [
             {
-                test: /\.(js?|tsx?)$/,
+                test: /\.(js?|tsx?|ts?)$/,
                 exclude: /node_modules/,
                 use: {
                     loader: "babel-loader",
@@ -47,6 +47,12 @@ export const baseConfig: webpack.Configuration = {
     },
     resolve: {
         extensions: [".js", ".tsx", ".ts"],
-        modules: ["node_modules", path.join(__dirname, "src"), "components"], // this will help us resolving modules under as if they were from node
+        modules: [
+            "node_modules",
+            path.join(__dirname, "src"),
+            "components",
+            "store",
+            "hooks",
+        ], // this will help us resolving modules under as if they were from node
     },
 };
