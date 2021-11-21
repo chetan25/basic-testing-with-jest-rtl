@@ -28,6 +28,7 @@
             "store/*": ["src/store/*"],
             "hooks/*": ["src/hooks/*"],
             "lang/*": ["src/lang/*"],
+            "mocks/*": ["src/mocks/*"],
             "utils/*": ["test/utils/*"]
         }
     },

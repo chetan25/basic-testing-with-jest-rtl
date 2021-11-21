@@ -20,7 +20,7 @@ describe("Test App Component", () => {
         const { queryByTestId, queryByText } = renderWithProviders(<App />, {
             defaultState: {
                 user: {
-                    name: "Test",
+                    userName: "Test",
                 },
             },
         });

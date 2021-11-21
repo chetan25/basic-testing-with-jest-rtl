@@ -1,16 +1,35 @@
 import React, { useState } from "react";
-// import { useGlobalState, useGlobalStateDispatcher } from "store/global";
+import { useGlobalState, useGlobalStateDispatcher } from "store/global";
 
 const useLogin = () => {
-    // const state = useGlobalState();
-    // const dispatcher = useGlobalStateDispatcher();
+    const state = useGlobalState();
+    const dispatcher = useGlobalStateDispatcher();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isProcessing, setProcessing] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
-    const login = () => {
+    const login = async () => {
         setProcessing(true);
+        const res = await fetch("/api/login", {
+            method: "POST",
+            body: JSON.stringify({
+                email: email,
+                password: password,
+            }),
+        });
+        const result = await res.json();
+        setProcessing(false);
+
+        if (result.user) {
+            dispatcher({
+                ...state,
+                user: result.user[0],
+            });
+        } else {
+            setError(result.errors[0]);
+        }
     };
 
     const onEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,6 +56,7 @@ const useLogin = () => {
         login,
         isFormInValid,
         isProcessing,
+        error,
     };
 };
 

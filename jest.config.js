@@ -22,6 +22,7 @@ module.exports = {
         "hooks",
         "lang",
         "store",
+        "mocks",
         // eslint-disable-next-line no-undef
         path.join(__dirname, "test"),
     ],
@@ -34,8 +35,5 @@ module.exports = {
     testMatch: ["<rootDir>/test/**/*.spec.+(ts|tsx|js)"],
     setupFilesAfterEnv: ["@testing-library/jest-dom/extend-expect"],
     collectCoverageFrom: ["**/src/*.(ts|tsx)"],
-    watchPlugins: [
-        "jest-watch-typeahead/filename",
-        "jest-watch-typeahead/testname",
-    ],
+    watchPlugins: ["jest-watch-typeahead/filename", "jest-watch-typeahead/testname"],
 };

@@ -9,7 +9,7 @@ const Greeting = () => {
 
     return (
         <div data-testid={translator("greeting")}>
-            <h2 className="app">Hello {user?.name}</h2>
+            <h2 className="app">Hello {user?.userName}</h2>
             <h2 className={styles.text}>APP</h2>
         </div>
     );

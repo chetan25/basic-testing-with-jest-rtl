@@ -1,9 +1,19 @@
 import React from "react";
-import { renderWithProviders } from "utils/render";
+import { renderWithProviders, waitFor } from "utils/render";
 import user from "@testing-library/user-event";
 import Login from "components/login";
 import translator from "src/lang/translator";
+import startServer from "mocks/server";
 
+let server: any;
+
+beforeEach(() => {
+    server = startServer();
+});
+
+afterEach(() => {
+    server.shutdown();
+});
 // why this work is that jest compiler will host
 // all the mock to top of file after compiling to commonjs before running the code,
 // so that even the deps which consumed are defined before
@@ -50,7 +60,7 @@ describe("Test Login Component", () => {
         expect(getByText(translator("submit"))).toHaveAttribute("disabled");
     });
 
-    it("Test the loading text shows up on submitting", () => {
+    it("Test the loading text shows up on submitting", async () => {
         // arrange
         const { getByPlaceholderText, queryByText, getByText } = renderWithProviders(<Login />);
         // get input elements
@@ -58,11 +68,35 @@ describe("Test Login Component", () => {
         const passwordEl = getByPlaceholderText(translator("password"));
 
         // act
-        user.type(emailEl, "test@email.com");
-        user.type(passwordEl, "worldwqwq");
+        user.type(emailEl, "test@gmail.com");
+        user.type(passwordEl, "test1234");
         user.click(getByText(translator("submit")));
 
         // assert
         expect(queryByText(translator("loging_in_please_wait"))).toBeInTheDocument();
+        await waitFor(() => {
+            expect(queryByText(translator("loging_in_please_wait"))).not.toBeInTheDocument();
+        });
+    });
+    it("Test Alert shows up on wrong credentials", async () => {
+        // arrange
+        const { getByPlaceholderText, queryByText, getByText, queryByTestId } = renderWithProviders(<Login />);
+        // get input elements
+        const emailEl = getByPlaceholderText(translator("email"));
+        const passwordEl = getByPlaceholderText(translator("password"));
+
+        // act
+        user.type(emailEl, "wromng@gmail.com");
+        user.type(passwordEl, "wromng");
+        user.click(getByText(translator("submit")));
+
+        // assert
+        expect(queryByText(translator("loging_in_please_wait"))).toBeInTheDocument();
+        await waitFor(() => {
+            expect(queryByText(translator("loging_in_please_wait"))).not.toBeInTheDocument();
+        });
+        await waitFor(() => {
+            expect(queryByTestId(translator("login-error"))).toBeInTheDocument();
+        });
     });
 });

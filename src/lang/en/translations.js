@@ -4,7 +4,7 @@ const EngTranslations = {
     },
     "welcome_[userName]_to_testing_world": (data) => {
         const { userName } = data;
-        `Welcome ${userName} to testing world`;
+        return `Welcome ${userName} to testing world`;
     },
     login: () => {
         return "Login";
@@ -18,6 +18,7 @@ const EngTranslations = {
     loging_in_please_wait: () => {
         return "loging in, please wait.....";
     },
+    "login-error": () => "login-error",
 };
 
 export default EngTranslations;

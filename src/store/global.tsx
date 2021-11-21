@@ -1,6 +1,6 @@
 import React, { useState, useContext, createContext } from "react";
 
-export type User = { name: string } | null;
+export type User = { userName: string } | null;
 
 export type GlobalState = {
     user: User | null;
@@ -12,9 +12,7 @@ export const initialState = {
     user: null,
 };
 
-const GlobalContext = createContext<[GlobalState, StateUpdator] | undefined>(
-    undefined
-);
+const GlobalContext = createContext<[GlobalState, StateUpdator] | undefined>(undefined);
 
 export const GlobalProvider = ({
     children,
@@ -25,11 +23,7 @@ export const GlobalProvider = ({
 }) => {
     const [state, setState] = useState<GlobalState>(defaultValue);
 
-    return (
-        <GlobalContext.Provider value={[state, setState]}>
-            {children}
-        </GlobalContext.Provider>
-    );
+    return <GlobalContext.Provider value={[state, setState]}>{children}</GlobalContext.Provider>;
 };
 
 export const useGlobalState = () => {

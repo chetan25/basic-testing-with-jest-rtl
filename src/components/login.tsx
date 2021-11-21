@@ -1,5 +1,15 @@
 import React from "react";
-import { FormControl, FormLabel, Input, Button, Heading } from "@chakra-ui/react";
+import {
+    FormControl,
+    FormLabel,
+    Input,
+    Button,
+    Heading,
+    Alert,
+    AlertIcon,
+    AlertDescription,
+    CloseButton,
+} from "@chakra-ui/react";
 import useLogin from "hooks/useLogin";
 import translator from "lang/translator";
 import { CSSTransition } from "react-transition-group";
@@ -13,7 +23,6 @@ const LoadingMessage = ({
     children: React.ReactNode;
     start: boolean;
 }) => {
-    console.log(start, "start");
     return (
         <CSSTransition unmountOnExit timeout={timeout} classNames="loading" in={start}>
             {children}
@@ -21,9 +30,19 @@ const LoadingMessage = ({
     );
 };
 
+const RenderAlert = (message: string) => {
+    return (
+        <Alert status="error">
+            <AlertIcon />
+            <AlertDescription data-testid={translator("login-error")}>{message}</AlertDescription>
+            <CloseButton position="absolute" right="8px" top="8px" />
+        </Alert>
+    );
+};
 const Login = () => {
-    const { email, onEmailChange, password, onPasswordChange, login, isFormInValid, isProcessing } = useLogin();
+    const { email, error, onEmailChange, password, onPasswordChange, login, isFormInValid, isProcessing } = useLogin();
 
+    console.log(error, "error");
     return (
         <form>
             <Heading as="h3" size="lg">
@@ -45,6 +64,7 @@ const Login = () => {
             <Button mt={4} colorScheme="teal" onClick={login} disabled={isFormInValid()}>
                 {translator("submit")}
             </Button>
+            {error ? RenderAlert(error) : null}
             <LoadingMessage timeout={300} start={isProcessing}>
                 <h4>{translator("loging_in_please_wait")}</h4>
             </LoadingMessage>

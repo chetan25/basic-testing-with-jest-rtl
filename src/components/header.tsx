@@ -10,9 +10,9 @@ const Header = () => {
     return (
         <Box w="100%" p={4} color="white">
             <Heading>
-                {user
+                {user && user.userName
                     ? translator("welcome_[userName]_to_testing_world", {
-                          userName: user.name,
+                          userName: user.userName,
                       })
                     : translator("let_start_your_testing_journey")}
             </Heading>

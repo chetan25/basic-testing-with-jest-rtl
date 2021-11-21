@@ -18,16 +18,21 @@ const devConfig: webpack.Configuration = {
         historyApiFallback: true,
         headers: {
             "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods":
-                "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-            "Access-Control-Allow-Headers":
-                "X-Requested-With, content-type, Authorization",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+            "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization",
         },
         hot: true,
     },
     plugins: [
         new HtmlWebpackPlugin({
             template: "./public/index.html",
+        }),
+        new webpack.ProvidePlugin({
+            process: "process/browser",
+        }),
+        new webpack.DefinePlugin({
+            "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV || "development"),
+            "process.env.DEBUG": JSON.stringify(process.env.DEBUG),
         }),
     ],
 };
