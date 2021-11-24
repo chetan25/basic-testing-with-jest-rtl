@@ -18,7 +18,14 @@ const EngTranslations = {
     loging_in_please_wait: () => {
         return "loging in, please wait.....";
     },
-    "login-error": () => "login-error",
+    login_error: () => "login-error",
+    add_todo: () => "Add Todo",
+    title: () => "Title",
+    description: () => "Description",
+    status: () => "Status",
+    completed: () => "Completed",
+    not_completed: () => "Not Completed",
+    display_todos: () => "Display Todos",
 };
 
 export default EngTranslations;

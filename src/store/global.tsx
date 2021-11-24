@@ -1,15 +1,25 @@
 import React, { useState, useContext, createContext } from "react";
 
-export type User = { userName: string } | null;
+export type User = { userId: number; userName: string; email: string } | null;
+
+export type Todos = {
+    userId: number;
+    todoId: number;
+    title: string;
+    description: string;
+    isCompleted: boolean;
+};
 
 export type GlobalState = {
     user: User | null;
+    todos: Todos[] | null;
 };
 
 export type StateUpdator = (value: GlobalState) => void;
 
 export const initialState = {
     user: null,
+    todos: null,
 };
 
 const GlobalContext = createContext<[GlobalState, StateUpdator] | undefined>(undefined);

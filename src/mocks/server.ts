@@ -11,6 +11,7 @@ type User = {
 };
 
 type Todos = {
+    userId: number;
     todoId: number;
     title: string;
     description: string;
@@ -36,6 +37,9 @@ const UserFactory = Factory.extend({
 });
 
 const TodoFactory = Factory.extend({
+    userId() {
+        return 99999;
+    },
     todoId() {
         return 99999;
     },
@@ -50,29 +54,37 @@ const TodoFactory = Factory.extend({
 
 type AppFactory = {
     user: typeof UserFactory;
-    todos: typeof TodoFactory;
+    todo: typeof TodoFactory;
 };
 
 type AppModels = {
     user: typeof UserModel;
-    todos: typeof TodosModel;
+    todo: typeof TodosModel;
 };
 
 type AppRegistry = Registry<AppModels, AppFactory>;
 type AppSchema = Schema<AppRegistry>;
 
-const startServer = () => {
+export const TODO_DEFAULT_DATA = {
+    userId: Math.floor(Math.random() * 10),
+    todoId: Math.floor(Math.random() * 10),
+    title: "test",
+    description: "this is test",
+    isCompleted: false,
+};
+
+const startServer = (todosInitialData?: Todos, delay?: number) => {
     return createServer<AppModels, AppFactory>({
         serializers: {
             application: JSONAPISerializer,
         },
         models: {
             user: Model,
-            todos: Model,
+            todo: Model,
         },
         factories: {
             user: UserFactory,
-            todos: TodoFactory,
+            todo: TodoFactory,
         },
         seeds(server) {
             server.create("user", {
@@ -81,10 +93,17 @@ const startServer = () => {
                 email: "test@gmail.com",
                 password: "test1234",
             });
+            if (todosInitialData) {
+                server.create("todo", todosInitialData);
+            }
         },
         routes() {
             this.namespace = "api";
 
+            if (delay) {
+                // default is 400 for development and 0 for testing
+                this.timing = delay; // in milisecons
+            }
             //  login
             this.post("/login", (schema: AppSchema, request) => {
                 const { email, password } = JSON.parse(request.requestBody);
@@ -95,15 +114,24 @@ const startServer = () => {
                 }
                 return new Response(200, {}, { user: user });
             });
-            //   this.get("/todos", () => {
-            //     return {
-            //       movies: [
-            //         { id: 1, name: "Inception", year: 2010 },
-            //         { id: 2, name: "Interstellar", year: 2014 },
-            //         { id: 3, name: "Dunkirk", year: 2017 },
-            //       ],
-            //     }
-            //   })
+
+            this.post("/todo", (schema: AppSchema, request) => {
+                const { todo } = JSON.parse(request.requestBody);
+                // @ts-ignore
+                const allTodos = schema.todos.all();
+
+                const addedTodo = schema.db.todos.insert({
+                    ...todo,
+                    todoId: allTodos.length + 1,
+                });
+                return new Response(200, {}, { todo: addedTodo });
+            });
+
+            this.get("/todo", () => {
+                return {
+                    todos: this.schema.db.todos,
+                };
+            });
         },
     });
 };

@@ -1,33 +1,58 @@
 import React from "react";
-import { renderWithProviders } from "utils/render";
+import { renderWithProviders, waitFor } from "utils/render";
 import App from "src/app";
-import translator from "src/lang/translator";
+
+// since we don''t want to render the full component
+// to mock a default component we need to set the  __esModule: true,
+jest.mock("components/login", () => ({
+    __esModule: true,
+    default: () => {
+        return <h2>Login</h2>;
+    },
+}));
+
+jest.mock("components/todos", () => ({
+    __esModule: true,
+    default: () => {
+        return <h2>Todos</h2>;
+    },
+}));
 
 describe("Test App Component", () => {
-    it("Should render Login when no user is there", () => {
+    it("Should render Login when no user is there", async () => {
         // arrange
-        const { queryByText, queryByTestId } = renderWithProviders(<App />);
+        const { queryByText } = renderWithProviders(<App />);
 
         // assert
-        expect(queryByText(translator("login"))).toBeInTheDocument();
-        expect(queryByTestId(translator("greeting"))).not.toBeInTheDocument();
+        await waitFor(() => {
+            expect(queryByText(/Todos/i)).not.toBeInTheDocument();
+        });
+        await waitFor(() => {
+            expect(queryByText(/Login/i)).toBeInTheDocument();
+        });
 
         // debug();
     });
 
-    it("Should render Greeting when user is there", () => {
+    it("Should render Greeting when user is there", async () => {
         // arrange
-        const { queryByTestId, queryByText } = renderWithProviders(<App />, {
+        const { queryByText } = renderWithProviders(<App />, {
             defaultState: {
                 user: {
                     userName: "Test",
+                    userId: 2222,
+                    email: "test@gmail.com",
                 },
+                todos: null,
             },
         });
 
         // assert
-        expect(queryByTestId(translator("login"))).not.toBeInTheDocument();
-        expect(queryByTestId(translator("greeting"))).toBeInTheDocument();
-        expect(queryByText(/Hello Test/i)).toBeInTheDocument();
+        await waitFor(() => {
+            expect(queryByText(/Login/i)).not.toBeInTheDocument();
+        });
+        await waitFor(() => {
+            expect(queryByText(/Todos/i)).toBeInTheDocument();
+        });
     });
 });

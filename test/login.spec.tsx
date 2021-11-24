@@ -56,6 +56,7 @@ describe("Test Login Component", () => {
 
         expect(emailEl).toHaveValue("");
         expect(passwordEl).toHaveValue("");
+        expect(passwordEl).toHaveAttribute("type", "password");
         expect(getByText(translator("submit"))).toBeInTheDocument();
         expect(getByText(translator("submit"))).toHaveAttribute("disabled");
     });
@@ -96,7 +97,7 @@ describe("Test Login Component", () => {
             expect(queryByText(translator("loging_in_please_wait"))).not.toBeInTheDocument();
         });
         await waitFor(() => {
-            expect(queryByTestId(translator("login-error"))).toBeInTheDocument();
+            expect(queryByTestId(translator("login_error"))).toBeInTheDocument();
         });
     });
 });

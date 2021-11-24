@@ -11,6 +11,7 @@ const useLogin = () => {
     const [error, setError] = useState<string | null>(null);
 
     const login = async () => {
+        setError(null);
         setProcessing(true);
         const res = await fetch("/api/login", {
             method: "POST",

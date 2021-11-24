@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Grid, GridItem } from "@chakra-ui/react";
 import { useGlobalState } from "store/global";
 import Header from "components/header";
-import Greetings from "components/greeting";
+import Todos from "components/todos";
 import Login from "components/login";
 import "app.scss";
 
@@ -15,7 +15,7 @@ const App = (): React.ReactElement => {
                 <Header />
             </GridItem>
             <GridItem colSpan={5} rowSpan={4} bg="white">
-                <Container maxW="xl">{user ? <Greetings /> : <Login />}</Container>
+                <Container maxW="xl">{user ? <Todos /> : <Login />}</Container>
             </GridItem>
             <GridItem colSpan={5} rowSpan={1} bg="tomato" />
         </Grid>
