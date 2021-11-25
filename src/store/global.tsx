@@ -10,6 +10,7 @@ export type Todos = {
     isCompleted: boolean;
 };
 
+export type AddTodoType = Omit<Todos, "userId" | "todoId">;
 export type GlobalState = {
     user: User | null;
     todos: Todos[] | null;
@@ -17,6 +18,12 @@ export type GlobalState = {
 
 export type StateUpdator = (value: GlobalState) => void;
 
+// {
+//     userId: 1,
+//     userName: "Test",
+//     email: "test@gmail.com",
+//     password: "test1234",
+// }
 export const initialState = {
     user: null,
     todos: null,

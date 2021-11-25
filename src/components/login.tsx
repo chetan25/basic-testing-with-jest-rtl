@@ -2,23 +2,7 @@ import React from "react";
 import { FormControl, FormLabel, Input, Button, Heading, Alert, AlertIcon, AlertDescription } from "@chakra-ui/react";
 import useLogin from "hooks/useLogin";
 import translator from "lang/translator";
-import { CSSTransition } from "react-transition-group";
-
-const LoadingMessage = ({
-    timeout,
-    children,
-    start = false,
-}: {
-    timeout: number;
-    children: React.ReactNode;
-    start: boolean;
-}) => {
-    return (
-        <CSSTransition unmountOnExit timeout={timeout} classNames="loading" in={start}>
-            {children}
-        </CSSTransition>
-    );
-};
+import LoadingMessage from "components/loading-component";
 
 const RenderAlert = (message: string) => {
     return (

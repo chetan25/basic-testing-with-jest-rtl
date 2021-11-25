@@ -9,11 +9,11 @@ import AddTodo from "components/add-todo";
 const Todos = () => {
     const state = useGlobalState();
     const dispatcher = useGlobalStateDispatcher();
-    const { todos } = state;
+    const { todos, user } = state;
 
     useEffect(() => {
         const loadTodos = async () => {
-            const response = await fetch("/api/todo");
+            const response = await fetch(`/api/todo/${user?.userId}`);
             const data = await response.json();
             dispatcher({
                 ...state,
@@ -29,7 +29,7 @@ const Todos = () => {
 
     return (
         <div data-testid={translator("greeting")} className={styles.text}>
-            {todos.length > 0 ? <DisplayTodos todos={todos} /> : <AddTodo />}
+            {todos.length > 0 ? <DisplayTodos /> : <AddTodo />}
         </div>
     );
 };

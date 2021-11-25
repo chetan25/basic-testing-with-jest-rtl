@@ -1,19 +1,23 @@
 import React from "react";
+import { StackDivider, VStack, Box, Button } from "@chakra-ui/react";
 import "app.scss";
-import { Todos } from "store/global";
 import translator from "lang/translator";
+import ListTodos from "components/list-todos";
 
-const DisplayTodos = ({ todos = [] }: { todos: Todos[] }) => {
+const DisplayTodos = () => {
     return (
-        <div data-testid={translator("display-todos")}>
-            {todos.map((todo) => {
-                return (
-                    <div key={todo.todoId}>
-                        {todo.title} --- {todo.description}
-                    </div>
-                );
-            })}
-        </div>
+        <Box padding="10" data-testid={translator("display_todos")}>
+            <VStack divider={<StackDivider borderColor="gray.200" />} spacing={4} align="stretch">
+                <Box>
+                    <Button colorScheme="teal" variant="solid">
+                        Add Todo
+                    </Button>
+                </Box>
+                <Box>
+                    <ListTodos />
+                </Box>
+            </VStack>
+        </Box>
     );
 };
 export default DisplayTodos;

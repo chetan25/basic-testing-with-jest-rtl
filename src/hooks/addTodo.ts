@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useGlobalState, Todos } from "store/global";
+import { useGlobalState, Todos, useGlobalStateDispatcher } from "store/global";
 
 export type AddTodoType = Omit<Todos, "userId" | "todoId">;
 
@@ -11,7 +11,7 @@ export const DEFAULT_TODO_VALUE = {
 
 const useAddTodo = () => {
     const state = useGlobalState();
-    // const dispatcher = useGlobalStateDispatcher();
+    const dispatcher = useGlobalStateDispatcher();
 
     const [todo, setTodo] = useState<AddTodoType>(DEFAULT_TODO_VALUE);
 
@@ -31,8 +31,11 @@ const useAddTodo = () => {
             }),
         });
         const result = await res.json();
-        console.log(result);
         setProcessing(false);
+        dispatcher({
+            ...state,
+            todos: state.todos ? [...state.todos, result.todo] : [result.todo],
+        });
     };
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

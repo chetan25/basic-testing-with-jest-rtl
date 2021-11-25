@@ -57,3 +57,34 @@ setupFilesAfterEnv: ["@testing-library/jest-dom/extend-expect"],
 ```js
    watchPlugins: ["jest-watch-typeahead/filename", "jest-watch-typeahead/testname"],
 ```
+
+## How to write Testable Components
+
+The [diagram](/component..png) shows the new proposed and the old way of designing components. The benefit of building components in a new way is that there is a lot of `separation of concerns` and the component itself become much simpler.
+
+```js
+   Component ===> Business Logic(Hooks) ====> Data Store(Context/Redux)
+```
+
+All the component in this repo is designed in that way and you can see how testing is simpler as
+
+-   We have to mock less stuff
+-   We test what is required with confidence.
+
+An example would be [add-todo.tsx](src/components/add-todo.tsx)
+
+The above approach with a mindset of testing from user prospective can give us test with better confidence. So what is this user prospective, it is basically testing the components the way the user would interact with them and avoid creating a new test user persona.
+
+One example to User based testing is, that we avoid mocking stuff like `fetch` or network calls, as we would want to test it as close to user. So we use libraries like `miragejs` or `msw` to mock the `fetch` at network layer and create a full user experience while testing. This way we can test the different state the user would see during the network request or after it success or fails.
+An example would be the [login.spec.tsx](test/login.spec.tsx).
+
+Another point to keep in mind is, mock stuff smartly, for example if you are trying to test a specific flow in a component and don't care about the other components included/rendered, its better to mock them. For example in the [app.spec.tsx](test/app.spec.tsx) we want to test the `itenary` condition that it renders correct component based on the state, but we don't really care what the contents of each component are, so we mock the components as we don't want to render those unnecessarily in the test.
+
+```js
+jest.mock("components/todos", () => ({
+    __esModule: true,
+    default: () => {
+        return <h2>Todos</h2>;
+    },
+}));
+```

@@ -66,14 +66,21 @@ type AppRegistry = Registry<AppModels, AppFactory>;
 type AppSchema = Schema<AppRegistry>;
 
 export const TODO_DEFAULT_DATA = {
-    userId: Math.floor(Math.random() * 10),
+    userId: 1,
     todoId: Math.floor(Math.random() * 10),
     title: "test",
     description: "this is test",
     isCompleted: false,
 };
 
-const startServer = (todosInitialData?: Todos, delay?: number) => {
+export const DEFAULT_USER = {
+    userId: 1,
+    userName: "Test",
+    email: "test@gmail.com",
+    password: "test1234",
+};
+
+const startServer = (todosInitialData?: Todos | null, delay?: number) => {
     return createServer<AppModels, AppFactory>({
         serializers: {
             application: JSONAPISerializer,
@@ -87,12 +94,8 @@ const startServer = (todosInitialData?: Todos, delay?: number) => {
             todo: TodoFactory,
         },
         seeds(server) {
-            server.create("user", {
-                userId: Math.floor(Math.random() * 10),
-                userName: "Test",
-                email: "test@gmail.com",
-                password: "test1234",
-            });
+            server.create("user", DEFAULT_USER);
+            // server.create("todo", TODO_DEFAULT_DATA);
             if (todosInitialData) {
                 server.create("todo", todosInitialData);
             }
@@ -127,9 +130,12 @@ const startServer = (todosInitialData?: Todos, delay?: number) => {
                 return new Response(200, {}, { todo: addedTodo });
             });
 
-            this.get("/todo", () => {
+            this.get("/todo/:id", (schema, request) => {
+                const id = request.params.id;
+
+                const useTodos = schema.db.todos.where({ userId: id });
                 return {
-                    todos: this.schema.db.todos,
+                    todos: useTodos,
                 };
             });
         },

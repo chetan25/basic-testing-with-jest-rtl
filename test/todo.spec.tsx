@@ -1,7 +1,7 @@
 import React from "react";
 import { renderWithProviders, waitFor } from "utils/render";
 import Todos from "components/todos";
-import startServer, { TODO_DEFAULT_DATA } from "mocks/server";
+import startServer, { TODO_DEFAULT_DATA, DEFAULT_USER } from "mocks/server";
 
 // mock the dispkay and add todo component
 jest.mock("components/add-todo", () => ({
@@ -59,7 +59,9 @@ describe("Test Todos Component", () => {
         // arrange
         server = startServer(TODO_DEFAULT_DATA);
 
-        const { queryByText } = renderWithProviders(<Todos />);
+        const { queryByText } = renderWithProviders(<Todos />, {
+            defaultState: { user: DEFAULT_USER, todos: null },
+        });
 
         // assert
         await waitFor(() => {

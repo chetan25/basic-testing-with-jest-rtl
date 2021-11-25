@@ -1,25 +1,13 @@
 import React from "react";
 import "app.scss";
-// import { useGlobalState, useGlobalStateDispatcher } from "store/global";
+import LoadingMessage from "components/loading-component";
 import translator from "lang/translator";
-import {
-    FormControl,
-    FormLabel,
-    Input,
-    Button,
-    Heading,
-    Checkbox,
-    // Alert,
-    // AlertIcon,
-    // AlertDescription,
-} from "@chakra-ui/react";
+import { FormControl, FormLabel, Input, Button, Heading, Checkbox } from "@chakra-ui/react";
 import useAddTodo from "hooks/addTodo";
 
 const AddTodo = () => {
-    // const state = useGlobalState();
-    // const dispatcher = useGlobalStateDispatcher();
-
-    const { todo, addTodo, handleChange, isFormInValid } = useAddTodo();
+    const { todo, addTodo, handleChange, isFormInValid, isProcessing } = useAddTodo();
+    const loadingText = translator("adding_todo_please_wait");
 
     return (
         <form>
@@ -51,9 +39,20 @@ const AddTodo = () => {
                     {todo.isCompleted ? translator("completed") : translator("not_completed")}
                 </Checkbox>
             </FormControl>
-            <Button mt={4} colorScheme="teal" onClick={addTodo} disabled={isFormInValid()}>
+            <Button
+                mt={4}
+                data-testid={translator("submit")}
+                colorScheme="teal"
+                onClick={addTodo}
+                disabled={isFormInValid() || isProcessing}
+            >
                 {translator("submit")}
             </Button>
+            <div>
+                <LoadingMessage timeout={300} start={isProcessing}>
+                    <h4>{loadingText}</h4>
+                </LoadingMessage>
+            </div>
         </form>
     );
 };
