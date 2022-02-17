@@ -19,4 +19,18 @@ const Header = () => {
         </Box>
     );
 };
+
+// const HeaderContent = () => {
+//     const { user } = useGlobalState();
+//     return (
+//         <>
+//             {user && user.userName
+//                 ? translator("welcome_[userName]_to_testing_world", {
+//                       userName: user.userName,
+//                   })
+//                 : translator("let_start_your_testing_journey")}
+//         </>
+//     );
+// };
+
 export default Header;

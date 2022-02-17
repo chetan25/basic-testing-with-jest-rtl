@@ -19,7 +19,7 @@ describe("Test List Todos COmponent", () => {
         expect(queryByText(translator("no_todos_to_dispaly"))).toBeInTheDocument();
     });
 
-    it("Should be able to toggle the isCOmpleted status", async () => {
+    it("Should be able to toggle the isCompleted status", async () => {
         // arrange
         const { queryByText, findByTestId } = renderWithProviders(<ListTodos />, {
             defaultState: {

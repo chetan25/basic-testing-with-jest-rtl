@@ -18,7 +18,7 @@ const useAddTodo = () => {
     const [isProcessing, setProcessing] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const addTodo = async () => {
+    const addTodo = async (onDone?: () => void) => {
         setError(null);
         setProcessing(true);
         const res = await fetch("/api/todo", {
@@ -36,6 +36,7 @@ const useAddTodo = () => {
             ...state,
             todos: state.todos ? [...state.todos, result.todo] : [result.todo],
         });
+        onDone ? onDone() : null;
     };
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
