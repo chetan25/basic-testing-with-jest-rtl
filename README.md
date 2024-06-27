@@ -1,7 +1,7 @@
 ---
-title: Basic Testing Best Practices.
-excerpt: A simple React based UI to apply some testing principles.
-Tools: ["React", "React Testing Library", "Jest", Webpack', "miragejs", "@chakra-ui/react"]
+Title: Basic Testing Best Practices.
+Excerpt: A simple React based UI to apply some testing principles.
+Tech: "React, React Testing Library, Jest, Webpack, miragejs, @chakra-ui/react"
 ---
 
 # Basic Testing Best Practices
