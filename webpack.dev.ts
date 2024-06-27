@@ -9,12 +9,12 @@ const devConfig: webpack.Configuration = {
     entry: "./src/index.tsx",
     output: {
         filename: "index.js",
-        publicPath: "http://localhost:3000/",
+        publicPath: "http://localhost:3001/",
         crossOriginLoading: "anonymous",
     },
     devtool: "cheap-module-source-map",
     devServer: {
-        port: 3000,
+        port: 3001,
         historyApiFallback: true,
         headers: {
             "Access-Control-Allow-Origin": "*",

@@ -5,9 +5,13 @@ import translator from "lang/translator";
 import { FormControl, FormLabel, Input, Button, Heading, Checkbox } from "@chakra-ui/react";
 import useAddTodo from "hooks/addTodo";
 
-const AddTodo = () => {
+const AddTodo = ({ onDone }: { onDone?: () => void }) => {
     const { todo, addTodo, handleChange, isFormInValid, isProcessing } = useAddTodo();
     const loadingText = translator("adding_todo_please_wait");
+
+    const submitTodo = () => {
+        addTodo(onDone);
+    };
 
     return (
         <form>
@@ -43,7 +47,7 @@ const AddTodo = () => {
                 mt={4}
                 data-testid={translator("submit")}
                 colorScheme="teal"
-                onClick={addTodo}
+                onClick={submitTodo}
                 disabled={isFormInValid() || isProcessing}
             >
                 {translator("submit")}

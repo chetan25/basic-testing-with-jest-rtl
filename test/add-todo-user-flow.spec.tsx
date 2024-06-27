@@ -22,7 +22,6 @@ describe("Test Add Todo User Work flow", () => {
     it("User should be able to add todo and see it on screen", async () => {
         // arrange
         server = startServer(null, 500);
-        server = startServer(null, 400);
         const { findByPlaceholderText, findByTestId, queryByText, findByLabelText } = renderWithProviders(<Todos />, {
             defaultState: {
                 user: DEFAULT_USER,

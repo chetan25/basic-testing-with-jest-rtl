@@ -63,7 +63,7 @@ setupFilesAfterEnv: ["@testing-library/jest-dom/extend-expect"],
 The [diagram](/component..png) shows the new proposed and the old way of designing components. The benefit of building components in a new way is that there is a lot of `separation of concerns` and the component itself become much simpler.
 
 ```js
-   Component ===> Business Logic(Hooks) ====> Data Store(Context/Redux)
+   Component ===> Business Logic(Hooks) ====> Data Stor(Context/Redux)
 ```
 
 All the component in this repo is designed in that way and you can see how testing is simpler as
@@ -88,3 +88,24 @@ jest.mock("components/todos", () => ({
     },
 }));
 ```
+
+#### Jest debugging
+
+-   Node has a flag inspect-brk that will add a break point to the start of the process
+
+```
+   "test:debug": "node --inspect-brk",
+```
+
+-   Then we can hook up the Chrome devtool to the process we want to debug.
+
+```
+ "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand
+--watch
+",
+```
+
+-   We cannot use jest like that since than it would be passed as argument to the node, so we need to provide the path to the jest binary.
+-   We also don't want the default Jest behaviour of running test in parallel, so we set the runInBand to run them in the same process.
+-   Now run the test:debug script and then go to `chrome://inspect`.
+-   Selecting the debugger will open the test debugger and it will stop in the debugger line.

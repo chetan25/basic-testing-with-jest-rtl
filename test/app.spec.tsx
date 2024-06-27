@@ -2,7 +2,7 @@ import React from "react";
 import { renderWithProviders, waitFor } from "utils/render";
 import App from "src/app";
 
-// since we don''t want to render the full component
+// since we don't want to render the full component
 // to mock a default component we need to set the  __esModule: true,
 jest.mock("components/login", () => ({
     __esModule: true,
@@ -34,7 +34,7 @@ describe("Test App Component", () => {
         // debug();
     });
 
-    it("Should render Greeting when user is there", async () => {
+    it("Should render Todos when user is there", async () => {
         // arrange
         const { queryByText } = renderWithProviders(<App />, {
             defaultState: {

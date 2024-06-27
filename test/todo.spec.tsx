@@ -3,7 +3,7 @@ import { renderWithProviders, waitFor } from "utils/render";
 import Todos from "components/todos";
 import startServer, { TODO_DEFAULT_DATA, DEFAULT_USER } from "mocks/server";
 
-// mock the dispkay and add todo component
+// mock the display and add todo component
 jest.mock("components/add-todo", () => ({
     __esModule: true,
     default: () => {
@@ -50,12 +50,13 @@ describe("Test Todos Component", () => {
             expect(queryByText(/Add Todo/i)).toBeInTheDocument();
         });
 
-        await waitFor(() => {
-            expect(queryByText(/Dispaly Todos/i)).not.toBeInTheDocument();
-        });
+        expect(queryByText(/Display Todos/i)).not.toBeInTheDocument();
+        // await waitFor(() => {
+        //     expect(queryByText(/Display Todos/i)).not.toBeInTheDocument();
+        // });
     });
 
-    it("It should show Dispaly Todo, when there is todos present", async () => {
+    it("It should show Display Todo, when there is todos present", async () => {
         // arrange
         server = startServer(TODO_DEFAULT_DATA);
 
@@ -67,8 +68,9 @@ describe("Test Todos Component", () => {
         await waitFor(() => {
             expect(queryByText(/Display Todos/i)).toBeInTheDocument();
         });
-        await waitFor(() => {
-            expect(queryByText(/Add Todo/i)).not.toBeInTheDocument();
-        });
+        expect(queryByText(/Add Todo/i)).not.toBeInTheDocument();
+        // await waitFor(() => {
+        //     expect(queryByText(/Add Todo/i)).not.toBeInTheDocument();
+        // });
     });
 });

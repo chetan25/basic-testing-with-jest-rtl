@@ -53,7 +53,6 @@ describe("Test Login Component", () => {
         const passwordEl = getByPlaceholderText(translator("password"));
 
         // assert
-
         expect(emailEl).toHaveValue("");
         expect(passwordEl).toHaveValue("");
         expect(passwordEl).toHaveAttribute("type", "password");
@@ -79,6 +78,7 @@ describe("Test Login Component", () => {
             expect(queryByText(translator("loging_in_please_wait"))).not.toBeInTheDocument();
         });
     });
+
     it("Test Alert shows up on wrong credentials", async () => {
         // arrange
         const { getByPlaceholderText, queryByText, getByText, queryByTestId } = renderWithProviders(<Login />);
@@ -88,7 +88,7 @@ describe("Test Login Component", () => {
 
         // act
         user.type(emailEl, "wromng@gmail.com");
-        user.type(passwordEl, "wromng");
+        user.type(passwordEl, "wrong");
         user.click(getByText(translator("submit")));
 
         // assert

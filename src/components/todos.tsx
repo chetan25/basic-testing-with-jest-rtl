@@ -5,6 +5,7 @@ import { useGlobalState, useGlobalStateDispatcher } from "store/global";
 import translator from "lang/translator";
 import DisplayTodos from "components/dispaly-todo";
 import AddTodo from "components/add-todo";
+// import ListTodos from "components/list-todos";
 
 const Todos = () => {
     const state = useGlobalState();

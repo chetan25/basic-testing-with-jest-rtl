@@ -13,6 +13,7 @@ const useLogin = () => {
     const login = async () => {
         setError(null);
         setProcessing(true);
+        // eslint-disable-next-line no-debugger
         const res = await fetch("/api/login", {
             method: "POST",
             body: JSON.stringify({
